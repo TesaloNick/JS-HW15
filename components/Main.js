@@ -6,31 +6,32 @@ class Main {
         const main = document.createElement('div')
         main.classList.add('products-div')
         document.querySelector('.products-head').insertAdjacentElement('afterend', main)
-
-        console.log('Main');
-
+    }
+    createProductCard(product){
+        document.querySelector('.products-div').insertAdjacentHTML('beforeend', `
+        <div class ='product'>
+            <div class ='product-image'>
+                <img src='${product.image}'>
+            </div>
+            <h2>${product.title}</h2>
+            <p>$${product.price}</p>
+        </div>
+        `)
     }
     getProducts(){
-        fetch('https://fakestoreapi.com/products')
-        .then(response => response.json())
-        .then(products => {
-            if (!localStorage.getItem('products')) localStorage.setItem('products', JSON.stringify(products))
-            products.map(product => {
-                document.querySelector('.products-div').insertAdjacentHTML('beforeend', `
-                <div class ='product'>
-                    <div class ='product-image'>
-                        <img src='${product.image}'>
-                    </div>
-                    <h2>${product.title}</h2>
-                    <p>$${product.price}</p>
-                </div>
-                `)
+        if (!localStorage.getItem('products')) {
+            fetch('https://fakestoreapi.com/products')
+            .then(response => response.json())
+            .then(products => {
+                console.log(products)
+                localStorage.setItem('products', JSON.stringify(products))
+                products.map(product => this.createProductCard(product))
             })
-
-        })
-
-        
-        
+        } else {
+            console.log();
+            JSON.parse(localStorage.getItem('products')).map(product => this.createProductCard(product))
+        }
+  
     }
     init() {
         this.create()
