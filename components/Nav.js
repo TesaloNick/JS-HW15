@@ -1,8 +1,13 @@
 class Nav {
     create() {
         const nav = document.createElement('nav')
-        document.querySelector('header').appendChild(nav)
+        document.querySelector('a').insertAdjacentElement('afterend', nav)
         console.log('nav');
+        nav.innerHTML = `
+            <a href='#'>Home</a>
+            <a href='#'>Shop</a>
+            <a href='#'>Contact</a>
+        `
     }
     init() {
         this.create()

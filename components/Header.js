@@ -3,6 +3,14 @@ class Header {
         const header = document.createElement('header')
         document.querySelector('.app').appendChild(header)
         console.log('header');
+        const logo = document.createElement('a')
+        logo.setAttribute('href', '#')
+        logo.innerHTML = `<img class='logo' src='images/metro-logo.png'>`
+        header.insertAdjacentElement('afterbegin', logo)
+        const basket = document.createElement('a')
+        basket.setAttribute('href', '#')
+        basket.innerHTML = `<img class='basket' src='images/basket.png'>`
+        header.insertAdjacentElement('beforeend', basket)
     }
     init() {
         this.create()
