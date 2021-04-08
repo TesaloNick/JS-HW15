@@ -13,8 +13,15 @@ class Main {
             <div class ='product-image'>
                 <img src='${product.image}'>
             </div>
-            <h2>${product.title}</h2>
-            <p>$${product.price}</p>
+            <div class ='product-information'>
+                <h2>${product.title}</h2>
+                <div class ='product-basket'>
+                    <p class='price'>$${product.price}</p>
+                    <img src='images/basket.png'>
+                </div>
+                
+            </div>
+
         </div>
         `)
     }
@@ -34,8 +41,28 @@ class Main {
   
     }
     init() {
+
         this.create()
         this.getProducts()
+        // console.log(document.querySelectorAll('.product'));
+        const products = document.querySelectorAll(".product");
+
+        for (let i = 0; i < products.length; i++) {
+            products[i].addEventListener("mouseover", () => {
+                products[i].querySelector('.price').innerHTML = `
+                <input type="number" placeholder="кол-во">
+            `
+            });
+        }
+        for (let i = 0; i < products.length; i++) {
+            products[i].addEventListener("mouseout", () => {
+                products[i].querySelector('.price').innerHTML = `
+                <p class='price'>$${JSON.parse(localStorage.getItem('products'))[i].price}</p>
+            `
+            console.log(products[i]);
+            console.log(i);
+            });
+        }
     }
 }
 const main = new Main().init()

@@ -55,13 +55,55 @@ nav a{
 .product{
     border: 1px solid black;
     border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.product:hover{
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    transition: 0.3s;
+    transform: scale(1.005);
 }
 .product img{
     width: 250px;
+    cursor: pointer;
 }
-.product h2, .product p{
+.product h2{
     padding: 5px;
     font-size: 20px;
+}
+.product-information{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 180px;
+}
+.product-information input{
+    height: 40px;
+    font-size: 25px;
+}
+.product h2{
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+.product p{
+    padding: 5px;
+    font-size: 25px;
+    padding-left: 20px;
+}
+.product-basket{
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    align-items: center;
+}
+.product-basket img{
+    width: 50px;
+    height: 50px;
+    margin: auto;
+    padding: 10px;
+    background-color: bisque;
+    border-radius: 5px;
 }
 .product-image{
     display: flex;
