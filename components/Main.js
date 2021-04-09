@@ -46,21 +46,21 @@ class Main {
         this.getProducts()
         // console.log(document.querySelectorAll('.product'));
         const products = document.querySelectorAll(".product");
-
+        let arrAmountBuyProduct = new Array(20);
+        arrAmountBuyProduct.fill(1)
+        console.log(arrAmountBuyProduct);
         for (let i = 0; i < products.length; i++) {
-            products[i].addEventListener("mouseover", () => {
+            products[i].addEventListener("mouseenter", () => {
+                console.log(arrAmountBuyProduct);
                 products[i].querySelector('.price').innerHTML = `
-                <input type="number" placeholder="кол-во">
-            `
+                <input type="number" class='amount${i}' value='${arrAmountBuyProduct[i]}'>
+                `
             });
-        }
-        for (let i = 0; i < products.length; i++) {
-            products[i].addEventListener("mouseout", () => {
+            products[i].addEventListener("mouseleave", () => {
+                arrAmountBuyProduct[i] = +document.querySelector(`.amount${i}`).value
                 products[i].querySelector('.price').innerHTML = `
                 <p class='price'>$${JSON.parse(localStorage.getItem('products'))[i].price}</p>
-            `
-            console.log(products[i]);
-            console.log(i);
+                `
             });
         }
     }
