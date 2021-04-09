@@ -1,3 +1,4 @@
+import $ from './utilits.js'
 class App {
     constructor() {
         this.mainDiv

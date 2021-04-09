@@ -1,5 +1,5 @@
 const $ = (selector) => {
-    console.log(document.querySelector(selector))
+    // console.log(document.querySelector(selector))
     return document.querySelector(selector)
 }
 

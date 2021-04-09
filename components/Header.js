@@ -1,7 +1,8 @@
+import $ from './utilits.js'
 class Header {
     create() {
         const header = document.createElement('header')
-        document.querySelector('.app').appendChild(header)
+        pageShop('.app').appendChild(header)
         const logo = document.createElement('a')
         logo.setAttribute('href', '#')
         logo.innerHTML = `<img class='logo' src='images/metro-logo.png'>`

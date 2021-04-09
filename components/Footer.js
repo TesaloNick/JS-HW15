@@ -1,7 +1,8 @@
+import $ from './utilits.js'
 class Footer {
     create() {
         const footer = document.createElement('footer')
-        document.querySelector('.app').appendChild(footer)
+        $('.app').appendChild(footer)
         const logo = document.createElement('a')
         logo.setAttribute('href', '#')
         logo.innerHTML = `<img class='logo' src='images/metro-black-logo.png'>`
