@@ -9,6 +9,7 @@ body{
 .app{
     max-width: 1200px;
     margin: auto;
+    height: 100vh;
 }
 header{
     padding: 20px 0;
@@ -180,7 +181,98 @@ nav a{
     grid-column-end: 3;
     padding-bottom: 30px;
 }
+.head-cart{
+    display: grid;
+    grid-template-columns: 1fr 1fr 4fr 1fr 1fr 1fr;
+    grid-gap: 15px;
+    padding: 10px 0;
+    background-color: rgb(241, 241, 241);
+    border-radius: 10px;
+    font-size: 25px;
+    font-weight: 700;
+}
+.cart{
+    display: grid;
+    grid-template-columns: 1fr 1fr 4fr 1fr 1fr 1fr;
+    grid-gap: 15px;
+    border-bottom: 1px rgb(212, 212, 212) solid;
+    margin: 20px 0;
+    padding-bottom: 20px;
+    font-size: 25px;
+    position: relative;
+    height: 150px;
+}
+.cart img{
+    width: 100px;
+    max-height: 140px;
+    margin: auto;
+}
+.cart p, .cart div{
+    display: flex;
+    align-items: center;
+}
+.cart input{
+    width: 40px;
+    height: 30px;
+    font-size: 20px;
+    padding-left: 10px;
+}
 
+.delete-button {
+    cursor: pointer;
+    margin: auto;
+    width: 32px;
+    height: 32px;
+    opacity: 0.3;
+}
+.delete-button:hover {
+    opacity: 1;
+}
+.delete-button:before, .delete-button:after {
+    position: absolute;
+    content: ' ';
+    height: 33px;
+    width: 2px;
+    background-color: #333;
+}
+.delete-button:before {
+    transform: rotate(45deg);
+}
+.delete-button:after {
+    transform: rotate(-45deg);
+}
+
+.change-amount-buy-products{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+.minus, .plus{
+    cursor: pointer;
+    border-radius: 5px;
+    width: 40px;
+    /* border: 1px solid black; */
+    background-color: rgb(233, 233, 233);
+    padding: 5px 0;
+    padding-left: 15px;
+    margin: 10px;
+}
+
+.cart-div button{
+    cursor: pointer;
+    padding: 15px 30px;
+    border: 0px;
+    border-radius: 10px;
+    background-color: rgb(158, 158, 158);
+    font-size: 25px;
+    color: white;
+    margin: 20px 0;
+    display: inline-block;
+}
+.cart-div button:hover{
+    background-color: rgb(110, 110, 110);
+    transform: scale(1.05);
+    transition: 0.5s;
+}
 footer {
     position: relative;
     padding: 30px 0;

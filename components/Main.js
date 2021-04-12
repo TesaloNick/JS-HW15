@@ -57,7 +57,7 @@ class Main {
 
                 if (this.buyProducts.find(item => item.title === buyObj.title)) { // проверка на повтор уже довабленного продукта
                     let repeat = this.buyProducts.find(item => item.title === buyObj.title)
-                    repeat.amount += buyObj.amount
+                    repeat.amount += +buyObj.amount
                 } else {
                     this.buyProducts.push(buyObj) 
                 }
@@ -73,7 +73,7 @@ class Main {
         }
 
     }
-    getProducts(){
+    getProducts(){ // достает информацию о товарах с постороннего ресурса
         if (!localStorage.getItem('products')) {
             fetch('https://fakestoreapi.com/products')
             .then(response => response.json())
@@ -87,14 +87,89 @@ class Main {
             this.getAmountBuyProduct()
         }
     }
+    sumHeadFullPrice() { // изменяет общую сумму товаров вверху страницы
+        let sum = 0
+        if (localStorage.getItem('buyProduct')) {
+            JSON.parse(localStorage.getItem('buyProduct')).map(item => {
+                sum += item.amount * item.price
+            })
+            setCookie('fullPrice', sum)
+            $('.cart-link').innerHTML = `<img class='img-cart' src='images/cart.png'>
+            <span class='amount-products-cart'>${JSON.parse(localStorage.getItem('buyProduct')).length}</span>
+            <span class='full-price-cart'>$${+Math.round(sum*100)/100}</span>`
+        } else {
+            $('.cart-link').innerHTML = `<img class='img-cart' src='images/cart.png'>
+            <span class='amount-products-cart'>0</span>
+            <span class='full-price-cart'>$0</span>`
+        }
+    }
+    changeCartPage() { // меняем значения в корзине
+        let buyProductsPlus = document.querySelectorAll('.plus')
+        let buyProductsMinus = document.querySelectorAll('.minus')
+        let buyProductsFullPrice = document.querySelectorAll('.full-price')
+        let buyProductsAmount = document.querySelectorAll('.change-amount-buy-products input')
+        let deleteProducts = document.querySelectorAll('.delete-button')
+        for (let i = 0; i < JSON.parse(localStorage.getItem('buyProduct')).length; i++) {
+            buyProductsMinus[i].addEventListener('click', () => { // уменьшение кол-ва при нажатии на минус
+                if (buyProductsAmount[i].value > 0) buyProductsAmount[i].value--
+                buyProductsFullPrice[i].innerHTML = `$${+Math.round(buyProductsAmount[i].value * JSON.parse(localStorage.getItem('buyProduct'))[i].price * 100)/100}`
+            })
+            buyProductsPlus[i].addEventListener('click', () => { // увеличение кол-ва при нажатии на плюс
+                buyProductsAmount[i].value++
+                buyProductsFullPrice[i].innerHTML = `$${+Math.round(buyProductsAmount[i].value * JSON.parse(localStorage.getItem('buyProduct'))[i].price * 100)/100}`
+            })
+            deleteProducts[i].addEventListener('click', () => {
+                this.buyProducts.splice(i, 1)
+                localStorage.setItem('buyProduct', JSON.stringify(this.buyProducts)) 
+                $('.cart-div').remove()
+                console.log(this.buyProducts);
+                this.createCartPage()
+                this.sumHeadFullPrice()
+            })
+        }
+        $('.cart-div button').addEventListener('click', () => {
+            for (let i = 0; i < JSON.parse(localStorage.getItem('buyProduct')).length; i++) {
+                this.buyProducts[i].amount = buyProductsAmount[i].value
+                console.log(this.buyProducts);
+                localStorage.setItem('buyProduct', JSON.stringify(this.buyProducts)) 
+                this.sumHeadFullPrice()
+            }
+        })
+    }
     createCartPage() {
         const main = document.createElement('div')
         main.classList.add('cart-div')
         $('.products-head').insertAdjacentElement('afterend', main)
         $('.products-head').innerHTML = '<p>Cart</p>'
         main.innerHTML = `
-            1
+            <div class='head-cart'>
+                <p></p>
+                <p>Product</p>
+                <p></p>
+                <p>Price</p>
+                <p>Quantity</p>
+                <p>Subtotal</p>
+            </div>
         `
+        console.log(this.buyProducts);
+        this.buyProducts.map(item => $('.cart-div').insertAdjacentHTML('beforeend', `
+            <div class='cart'>
+                <div class='delete-button'></div>
+                <img src='${item.image}'>
+                <p>${item.title}</p>
+                <p>$${item.price}</p>
+                <div class='change-amount-buy-products'>
+                    <div class='minus'>-</div>
+                    <input value='${item.amount}'>
+                    <div class='plus'>+</div>
+                </div>
+                <p class='full-price'>$${+Math.round(item.amount * item.price * 100)/100}</p>
+            </div>
+        `))
+        $('.cart-div').insertAdjacentHTML('beforeend', `
+            <button>Update cart</button>
+        `)
+        this.changeCartPage()
     }
     createContactsPage() {
         const main = document.createElement('div')
@@ -120,35 +195,23 @@ class Main {
     }
     init() {
         $('.pageHome').addEventListener('click', () => {
-            if ($('.contacts-div')) {
-                $('.contacts-div').remove()
-            } else if ($('.cart-div')) {
-                $('.cart-div').remove()
-            }
+            $('.products-head').nextElementSibling.remove()
             this.createProductPage()
         })
         $('.logo').addEventListener('click', () => {
-            if ($('.contacts-div')) {
-                $('.contacts-div').remove()
-            } else if ($('.cart-div')) {
-                $('.cart-div').remove()
-            }
+            $('.products-head').nextElementSibling.remove()
             this.createProductPage()
         })
         $('.pageContact').addEventListener('click', () => {
-            if ($('.products-div')) {
-                $('.products-div').remove()
-            } else if ($('.cart-div')) {
-                $('.cart-div').remove()
-            }
+            $('.products-head').nextElementSibling.remove()
             this.createContactsPage()
         })
         $('.pageCart').addEventListener('click', () => {
-            if ($('.products-div')) {
-                $('.products-div').remove()
-            } else if ($('.contacts-div')) {
-                $('.contacts-div').remove()
-            }
+            $('.products-head').nextElementSibling.remove()
+            this.createCartPage()
+        })
+        $('.cart-link').addEventListener('click', () => {
+            $('.products-head').nextElementSibling.remove()
             this.createCartPage()
         })
         this.createProductPage()
