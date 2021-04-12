@@ -9,25 +9,29 @@ class Header {
         logo.setAttribute('href', '#')
         logo.innerHTML = `<img class='logo' src='images/metro-logo.png'>`
         header.insertAdjacentElement('afterbegin', logo)
-        const basket = document.createElement('a')
-        basket.classList.add('basket-link')
-        basket.setAttribute('href', '#')
+        const cart = document.createElement('a')
+        cart.classList.add('cart-link')
+        cart.setAttribute('href', '#')
+        const mainHead = document.createElement('div')
+        mainHead.classList.add('products-head')
+        $('header').insertAdjacentElement('afterend', mainHead)
+
         let sum = 0
         if (localStorage.getItem('buyProduct')) {
             JSON.parse(localStorage.getItem('buyProduct')).map(item => {
                 sum += item.amount * item.price
-                console.log(sum);
+                // console.log(sum);
             })
             setCookie('fullPrice', sum)
-            basket.innerHTML = `<img class='img-basket' src='images/basket.png'>
-            <span class='amount-products-basket'>${JSON.parse(localStorage.getItem('buyProduct')).length}</span>
-            <span class='full-price-basket'>$${+Math.round(sum*100)/100}</span>`
+            cart.innerHTML = `<img class='img-cart' src='images/cart.png'>
+            <span class='amount-products-cart'>${JSON.parse(localStorage.getItem('buyProduct')).length}</span>
+            <span class='full-price-cart'>$${+Math.round(sum*100)/100}</span>`
         } else {
-            basket.innerHTML = `<img class='img-basket' src='images/basket.png'>
-            <span class='amount-products-basket'>0</span>
-            <span class='full-price-basket'>$0</span>`
+            cart.innerHTML = `<img class='img-cart' src='images/cart.png'>
+            <span class='amount-products-cart'>0</span>
+            <span class='full-price-cart'>$0</span>`
         }
-        header.insertAdjacentElement('beforeend', basket)
+        header.insertAdjacentElement('beforeend', cart)
     }
     init() {
         this.create()

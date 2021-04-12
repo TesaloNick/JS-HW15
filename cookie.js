@@ -13,5 +13,5 @@ export function getCookie(name) {
 const defaultItem = () => {
 
 }
-console.log('from cookie.js')
+// console.log('from cookie.js')
 export default defaultItem
