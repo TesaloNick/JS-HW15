@@ -42,14 +42,20 @@ class Main {
         for (let i = 0; i < products.length; i++) {
             products[i].addEventListener("mouseenter", () => {
                 products[i].querySelector('.price').innerHTML = `
+                <div class='main-minus'>-</div>
                 <input type="number" class='amount${i}' value='${this.amountProduct[i]}'>
+                <div class='main-plus'>+</div>
                 `
+                $('.main-minus').addEventListener('click', () => {
+                    if ($('.price input').value > 0) $('.price input').value--
+                })
+                $('.main-plus').addEventListener('click', () => {
+                    $('.price input').value++
+                })
             }); 
             products[i].addEventListener("mouseleave", () => {
                 this.amountProduct[i] = +$(`.amount${i}`).value
-                products[i].querySelector('.price').innerHTML = `
-                <p class='price'>$${JSON.parse(localStorage.getItem('products'))[i].price}</p>
-                `
+                products[i].querySelector('.price').innerHTML = '$' + JSON.parse(localStorage.getItem('products'))[i].price
             });
             buttonForBuy[i].addEventListener('click', () => { // событие по нажатию на кнопку покупки
                 let buyObj = JSON.parse(localStorage.getItem('products'))[i]
@@ -70,7 +76,9 @@ class Main {
                 $(`.amount${i}`).value = 1 // сброс цифры покупки
                 console.log(this.buyProducts);
             })
+
         }
+
 
     }
     getProducts(){ // достает информацию о товарах с постороннего ресурса
