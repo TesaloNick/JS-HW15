@@ -63,7 +63,7 @@ class Main {
 
                 if (this.buyProducts.find(item => item.title === buyObj.title)) { // проверка на повтор уже довабленного продукта
                     let repeat = this.buyProducts.find(item => item.title === buyObj.title)
-                    repeat.amount += +buyObj.amount
+                    repeat.amount = +repeat.amount + +buyObj.amount
                 } else {
                     this.buyProducts.push(buyObj) 
                 }
