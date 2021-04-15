@@ -110,7 +110,7 @@ nav a{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 200px;
+    /* height: 200px; */
 }
 .product-information input{
     height: 30px;
@@ -119,9 +119,14 @@ nav a{
     border-radius: 5px;
     padding: 0 12px;
 }
+.product-information .description{
+    /* width: 30vw; */
+    font-size: 20px;
+}
 .product h2{
     grid-column-start: 1;
     grid-column-end: 3;
+    cursor: pointer;
 }
 .product p{
     padding: 5px;
@@ -148,6 +153,7 @@ nav a{
     border-radius: 5px;
 }
 .product-image{
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -222,27 +228,27 @@ nav a{
     font-size: 20px;
     padding-left: 10px;
 }
-.delete-button {
+.delete-button, .close {
     cursor: pointer;
     margin: auto;
     width: 32px;
     height: 32px;
     opacity: 0.3;
 }
-.delete-button:hover {
+.delete-button:hover, .close:hover{
     opacity: 1;
 }
-.delete-button:before, .delete-button:after {
+.delete-button:before, .delete-button:after, .close:before, .close:after {
     position: absolute;
     content: ' ';
     height: 33px;
     width: 2px;
     background-color: #333;
 }
-.delete-button:before {
+.delete-button:before, .close:before {
     transform: rotate(45deg);
 }
-.delete-button:after {
+.delete-button:after, .close:after {
     transform: rotate(-45deg);
 }
 
@@ -313,4 +319,50 @@ footer > div > div{
     display: flex;
     margin: 15px 0;
     align-items: center;
+}
+
+/*MODAL WINDOW*/ 
+.show {
+    opacity: 1 !important;
+}
+.modal-container {
+    opacity: 0;
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    background: #0000004d;
+    top: 0;
+    left: 0;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    transition: .5s;
+}
+.modal-product{
+    width: 30vw;
+}
+.modal-block {
+    position: relative;
+    padding: 40px;
+    background: white;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+}
+.modal-block .modal-product-image{
+    /* height: auto; */
+    margin-bottom: 30px;
+    /* margin: 30px 0; */
+}
+.modal-title{
+    padding: 10px 0;
+}
+.modal-container .close{ 
+    position: absolute;
+    top: 5px;
+    right: 0px;
+}
+.modal-block img {
+   max-width: 90%;
+   max-height: 66vh;
 }

@@ -15,8 +15,10 @@ class Main {
         $('.products-head').innerHTML = '<p>Products</p>'
         this.getProducts()
     }
-    createProductCard(product){
-        $('.products-div').insertAdjacentHTML('beforeend', `
+    createProductCard(product, way){
+        // console.log(product);
+        // console.log($(way));
+        $(way).insertAdjacentHTML('beforeend', `
         <div class ='product'>
             <div class ='product-image'>
                 <img src='${product.image}'>
@@ -34,9 +36,12 @@ class Main {
         `)
 
     }
+    
     getAmountBuyProduct(){
-        const products = document.querySelectorAll(".product"); // массив всех продуктов
-        const buttonForBuy = document.querySelectorAll(".buy-button"); // массив всех кнопок покупки
+        const products = document.querySelectorAll('.product'); // массив всех продуктов
+        const buttonForBuy = document.querySelectorAll('.buy-button'); // массив всех кнопок покупки
+        const productsImage = document.querySelectorAll('.product-image'); // массив всех картинок
+        const productsTitle = document.querySelectorAll('.product-information > h2'); // массив всех картинок
         this.amountProduct = new Array(20);
         this.amountProduct.fill(1)
         for (let i = 0; i < products.length; i++) {
@@ -57,6 +62,8 @@ class Main {
                 this.amountProduct[i] = +$(`.amount${i}`).value
                 products[i].querySelector('.price').innerHTML = '$' + JSON.parse(localStorage.getItem('products'))[i].price
             });
+            productsTitle[i].addEventListener('click', () => this.modalWindow(i))
+            productsImage[i].addEventListener('click', () => this.modalWindow(i))
             buttonForBuy[i].addEventListener('click', () => { // событие по нажатию на кнопку покупки
                 let buyObj = JSON.parse(localStorage.getItem('products'))[i]
                 buyObj.amount = +$(`.amount${i}`).value // добавляем свойство в метод с количеством купленных товаров
@@ -76,10 +83,7 @@ class Main {
                 $(`.amount${i}`).value = 1 // сброс цифры покупки
                 console.log(this.buyProducts);
             })
-
         }
-
-
     }
     getProducts(){ // достает информацию о товарах с постороннего ресурса
         if (!localStorage.getItem('products')) {
@@ -87,11 +91,11 @@ class Main {
             .then(response => response.json())
             .then(products => {
                 localStorage.setItem('products', JSON.stringify(products))
-                products.map(product => this.createProductCard(product))
+                products.map(product => this.createProductCard(product, '.products-div'))
                 this.getAmountBuyProduct()
             })
         } else {
-            JSON.parse(localStorage.getItem('products')).map(product => this.createProductCard(product))
+            JSON.parse(localStorage.getItem('products')).map(product => this.createProductCard(product, '.products-div'))
             this.getAmountBuyProduct()
         }
     }
@@ -111,7 +115,41 @@ class Main {
             <span class='full-price-cart'>$0</span>`
         }
     }
+    modalWindow(taskId) {
+        const closeMethod = () => {
+            modalContainer.classList.remove('show')
+            setTimeout(() => {
+                modalContainer.remove() //удаляем модульное окно через половину секунды
+            }, 500)
+        }
+        const modalContainer = document.createElement('div')
+        modalContainer.classList.add('modal-container')
+        let main = JSON.parse(localStorage.getItem('products'))[taskId];
+        console.log(main);
+        modalContainer.innerHTML = `
+            <div class="modal-block"> 
+                <div class='close'></div>
+                <div class ='modal-product'>
+                    <div class ='product-image modal-product-image'>
+                        <img src='${main.image}'>
+                    </div>
+                    <div class ='product-information'>
+                        <h2 class='modal-title'>${main.title}</h2>
+                        <p class='description'>${main.description}</p>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(modalContainer) //добавляем модальное окно в тело документа
+        $('.close').addEventListener('click', closeMethod)
+        setTimeout(() => {
+            modalContainer.classList.add('show') //делаем задержку чтобы браузер понял что мы добавили класс show не срау с элементом
+        }, 100)
+        
+    }
     changeCartPage() { // меняем значения в корзине
+        // window.location.hash = 'cart'
         let buyProductsPlus = document.querySelectorAll('.plus')
         let buyProductsMinus = document.querySelectorAll('.minus')
         let buyProductsFullPrice = document.querySelectorAll('.full-price')
