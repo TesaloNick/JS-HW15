@@ -9,18 +9,15 @@ class Main {
         this.fullPrice = localStorage.getItem('buyProduct') ? getCookie('fullPrice') : 0
     }
     createProductPage() {
-        console.log(window.location.hash);
-        window.location.hash = 'home'
+        // window.location.hash = 'home'
         const main = document.createElement('div')
         main.classList.add('products-div')
         $('.products-head').insertAdjacentElement('afterend', main)
         $('.products-head').innerHTML = '<p>Products</p>'
         this.getProducts()
     }
-    createProductCard(product, way){
-        // console.log(product);
-        // console.log($(way));
-        $(way).insertAdjacentHTML('beforeend', `
+    createProductCard(product){
+        $('.products-div').insertAdjacentHTML('beforeend', `
         <div class ='product'>
             <div class ='product-image'>
                 <img src='${product.image}'>
@@ -31,12 +28,9 @@ class Main {
                     <p class='price'>$${product.price}</p>
                     <img class='buy-button' src='images/cart.png'>
                 </div>
-                
             </div>
-
         </div>
         `)
-
     }
     
     getAmountBuyProduct(){
@@ -64,8 +58,8 @@ class Main {
                 this.amountProduct[i] = +$(`.amount${i}`).value
                 products[i].querySelector('.price').innerHTML = '$' + JSON.parse(localStorage.getItem('products'))[i].price
             });
-            productsTitle[i].addEventListener('click', () => this.modalWindow(i))
-            productsImage[i].addEventListener('click', () => this.modalWindow(i))
+            productsTitle[i].addEventListener('click', () => window.location.hash = `product/${i+1}`)
+            productsImage[i].addEventListener('click', () => window.location.hash = `product/${i+1}`)
             buttonForBuy[i].addEventListener('click', () => { // событие по нажатию на кнопку покупки
                 let buyObj = JSON.parse(localStorage.getItem('products'))[i]
                 buyObj.amount = +$(`.amount${i}`).value // добавляем свойство в метод с количеством купленных товаров
@@ -88,17 +82,16 @@ class Main {
         }
     }
     getProducts(){ // достает информацию о товарах с постороннего ресурса
-        window.location.hash = 'home'
         if (!localStorage.getItem('products')) {
             fetch('https://fakestoreapi.com/products')
             .then(response => response.json())
             .then(products => {
                 localStorage.setItem('products', JSON.stringify(products))
-                products.map(product => this.createProductCard(product, '.products-div'))
+                products.map(product => this.createProductCard(product))
                 this.getAmountBuyProduct()
             })
         } else {
-            JSON.parse(localStorage.getItem('products')).map(product => this.createProductCard(product, '.products-div'))
+            JSON.parse(localStorage.getItem('products')).map(product => this.createProductCard(product))
             this.getAmountBuyProduct()
         }
     }
@@ -119,12 +112,12 @@ class Main {
         }
     }
     modalWindow(taskId) {
-        window.location.hash = `product/${taskId+1}`
         const closeMethod = () => {
             modalContainer.classList.remove('show')
             setTimeout(() => {
                 modalContainer.remove() //удаляем модульное окно через половину секунды
             }, 500)
+            window.location.hash = 'home'
         }
         const modalContainer = document.createElement('div')
         modalContainer.classList.add('modal-container')
@@ -153,7 +146,6 @@ class Main {
         
     }
     changeCartPage() { // меняем значения в корзине
-        // window.location.hash = 'cart'
         let buyProductsPlus = document.querySelectorAll('.plus')
         let buyProductsMinus = document.querySelectorAll('.minus')
         let buyProductsFullPrice = document.querySelectorAll('.full-price')
@@ -187,7 +179,8 @@ class Main {
         })
     }
     createCartPage() {
-        window.location.hash = 'cart'
+        $('.products-head').nextElementSibling.remove()
+        // window.location.hash = 'cart'
         const main = document.createElement('div')
         main.classList.add('cart-div')
         $('.products-head').insertAdjacentElement('afterend', main)
@@ -223,13 +216,12 @@ class Main {
         this.changeCartPage()
     }
     createContactsPage() {
-        window.location.hash = 'contacts'
+        $('.products-head').nextElementSibling.remove()
+        // window.location.hash = 'contacts'
         const main = document.createElement('div')
         main.classList.add('contacts-div')
-        window.location.hash = 'contacts'
         $('.products-head').insertAdjacentElement('afterend', main)
         $('.products-head').innerHTML = '<p>Contacts</p>'
-        window.location.hash = 'contacts'
         main.innerHTML = `
             <div>
                 <h1>About us</h1>
@@ -246,34 +238,55 @@ class Main {
             </div>
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d21189.939460147387!2d35.03044501204864!3d48.40388928868605!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40dbfb68113631ef%3A0xce20d61a5ed45382!2sMETRO%20Cash%26Carry!5e0!3m2!1sru!2sby!4v1618232434300!5m2!1sru!2sby" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
         `
-        window.location.hash = 'contacts'
     }
     init() {
         $('.pageHome').addEventListener('click', () => {
             $('.products-head').nextElementSibling.remove()
-            this.createProductPage()
+            window.location.hash = 'home'
         })
         $('.logo').addEventListener('click', () => {
-            $('.products-head').nextElementSibling.remove()
-            this.createProductPage()
+            window.location.hash = 'home'
         })
         $('.pageContact').addEventListener('click', () => {
             window.location.hash = 'contacts'
-            $('.products-head').nextElementSibling.remove()
-            window.location.hash = 'contacts'
-            this.createContactsPage()
-            window.location.hash = 'contacts'
         })
         $('.pageCart').addEventListener('click', () => {
-            $('.products-head').nextElementSibling.remove()
-            this.createCartPage()
+            window.location.hash = 'cart'
         })
         $('.cart-link').addEventListener('click', () => {
-            $('.products-head').nextElementSibling.remove()
-            this.createCartPage()
+            window.location.hash = 'cart'
         })
-        this.createProductPage()
+        // this.createProductPage()
     }
 }
-const main = new Main().init()
+const main = new Main()
+main.init()
+const router = () => {
+    const hash = window.location.hash
+
+    if (hash.includes('contacts')) {
+        main.createContactsPage()
+    }
+    if (hash.includes('home')) {
+        main.createProductPage()
+    }
+    if (hash.includes('cart')) {
+        main.createCartPage()
+    }
+    if (hash.includes('product')) {
+        const id = hash.replace('#', '').replace('product/', '');
+        main.modalWindow(+id-1)
+    }
+}
+window.addEventListener('hashchange', () => {
+    router()
+})
+window.onload = () => {
+    let hash = window.location.hash
+    if (hash) {
+        router()
+    } else {
+        hash = 'home'
+    }
+}
 export {main};

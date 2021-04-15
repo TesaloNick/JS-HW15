@@ -4,9 +4,9 @@ class Nav {
         const nav = document.createElement('nav')
         $('a').insertAdjacentElement('afterend', nav)
         nav.innerHTML = `
-            <a href='#' class='pageHome'>Home</a>
-            <a href='#' class='pageCart'>Cart</a>
-            <a href='#' class='pageContact'>Contact</a>
+            <a class='pageHome'>Home</a>
+            <a class='pageCart'>Cart</a>
+            <a class='pageContact'>Contact</a>
         `
     }
     init() {
