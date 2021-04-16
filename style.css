@@ -15,6 +15,7 @@ header{
     padding: 20px 0;
     display: grid;
     grid-template-columns: 1fr 1fr 2fr;
+    grid-gap: 20px;
     align-items: center;
 }
 header .logo{
@@ -294,7 +295,7 @@ footer {
     position: relative;
     padding: 30px 0;
     display: grid;
-    grid-template-columns: 3fr 1fr;
+    grid-template-columns: 2fr 1fr;
 }
 footer:before{
     content: '';
@@ -306,13 +307,19 @@ footer:before{
     left: calc(50% - 50vw);
     z-index: -2;
 }
+footer a{
+    display: block;
+    color: white;
+    text-decoration: none;
+    font-size: 25px;
+}
+footer > a > img{
+    width: 200px;
+}
 
 .mini-logo{
     background-color: black;
     width: 50px;
-}
-footer .logo{
-    width: 200px;
 }
 footer p{
     color: white;
@@ -355,11 +362,15 @@ footer > div > div{
     display: grid;
     justify-items: center;
     align-items: center;
+    max-height: 90vh;
+    overflow-y: auto;
 }
 .modal-block .modal-product-image{
-    /* height: auto; */
     margin-bottom: 30px;
-    /* margin: 30px 0; */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .modal-title{
     padding: 10px 0;
@@ -372,4 +383,47 @@ footer > div > div{
 .modal-block img {
    max-width: 90%;
    max-height: 66vh;
+}
+@media (max-width: 1330px) {
+    .app{
+        max-width: 90%;
+    }
+}
+@media (max-width: 1200px) {
+    .products-div{
+        grid-template-columns: repeat(3, 1fr);
+    }
+    footer {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+@media (max-width: 900px) {
+    .products-div{
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+}
+@media (max-width: 800px) {
+    
+}
+@media (max-width: 600px) {
+    .products-div{
+        grid-template-columns: repeat(1, 1fr);
+    }
+    footer {
+        grid-template-columns: 1fr 2fr;
+        grid-gap: 20px;
+    }
+    footer > a > img{
+        width: 100px;
+    }
+    footer a{
+        font-size: 20px;
+    }
+}
+@media (max-width: 400px) {
+    
+    footer a{
+        font-size: 15px;
+    }
 }

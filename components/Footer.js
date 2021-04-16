@@ -5,13 +5,13 @@ class Footer {
         $('.app').appendChild(footer)
         const logo = document.createElement('a')
         logo.setAttribute('href', '#')
-        logo.innerHTML = `<img class='logo' src='images/metro-black-logo.png'>`
+        logo.innerHTML = `<img src='images/metro-black-logo.png'>`
         footer.insertAdjacentElement('beforeend', logo)
         const contacts = document.createElement('div')
         contacts.innerHTML = `
-            <div><img class='mini-logo' src='images/location.png'><p>Location</p></div>
-            <div><img class='mini-logo' src='images/phone.png'><p>Phone</p></div>
-            <div><img class='mini-logo' src='images/email.png'><p>Email</p></div>
+            <a href='tel:+1234567890'>Tel: +1234567890</a>
+            <a href='mailto:wecare@metro.co.in'>Email: wecare@metro.co.in</a>
+            <a href='#'>Адресс: вулиця Макарова, 21, Рівне, Рівненська область, Украина</a>
         `
 
         footer.insertAdjacentElement('beforeend', contacts)
