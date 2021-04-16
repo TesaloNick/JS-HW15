@@ -420,6 +420,13 @@ footer > div > div{
     footer a{
         font-size: 20px;
     }
+    .product-cart{
+        grid-template-columns: 5fr 1fr;
+    }
+    .price{
+        grid-template-columns: 1fr 1fr 4fr;
+        grid-gap: 10px;
+    }
 }
 @media (max-width: 400px) {
     
