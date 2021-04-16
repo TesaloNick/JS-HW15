@@ -9,7 +9,6 @@ class Main {
         this.fullPrice = localStorage.getItem('buyProduct') ? getCookie('fullPrice') : 0
     }
     createProductPage() {
-        // window.location.hash = 'home'
         const main = document.createElement('div')
         main.classList.add('products-div')
         $('.products-head').insertAdjacentElement('afterend', main)
@@ -179,8 +178,6 @@ class Main {
         })
     }
     createCartPage() {
-        $('.products-head').nextElementSibling.remove()
-        // window.location.hash = 'cart'
         const main = document.createElement('div')
         main.classList.add('cart-div')
         $('.products-head').insertAdjacentElement('afterend', main)
@@ -216,8 +213,6 @@ class Main {
         this.changeCartPage()
     }
     createContactsPage() {
-        $('.products-head').nextElementSibling.remove()
-        // window.location.hash = 'contacts'
         const main = document.createElement('div')
         main.classList.add('contacts-div')
         $('.products-head').insertAdjacentElement('afterend', main)
@@ -240,8 +235,8 @@ class Main {
         `
     }
     init() {
+
         $('.pageHome').addEventListener('click', () => {
-            $('.products-head').nextElementSibling.remove()
             window.location.hash = 'home'
         })
         $('.logo').addEventListener('click', () => {
@@ -256,12 +251,12 @@ class Main {
         $('.cart-link').addEventListener('click', () => {
             window.location.hash = 'cart'
         })
-        // this.createProductPage()
+        this.createProductPage()
     }
 }
 const main = new Main()
 main.init()
-const router = () => {
+const router = () => { // переход по страницам в зависимости от хэша
     const hash = window.location.hash
 
     if (hash.includes('contacts')) {
@@ -275,15 +270,17 @@ const router = () => {
     }
     if (hash.includes('product')) {
         const id = hash.replace('#', '').replace('product/', '');
-        main.modalWindow(+id-1)
+        main.modalWindow(+id-1)  
     }
 }
-window.addEventListener('hashchange', () => {
+window.addEventListener('hashchange', () => { // когда меняется хэш
+    if (!(window.location.hash.includes('product'))) $('.products-head').nextElementSibling.remove() // если вызывается не модальное окно
     router()
 })
-window.onload = () => {
+window.onload = () => { // при перезагрузке страницы, оставаться на последней
     let hash = window.location.hash
     if (hash) {
+        $('.products-head').nextElementSibling.remove()
         router()
     } else {
         hash = 'home'
