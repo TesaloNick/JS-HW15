@@ -15,23 +15,14 @@ header{
     padding: 20px 0;
     display: grid;
     grid-template-columns: 1fr 1fr 2fr;
-    /* width: 100%; */
     grid-gap: 20px;
     align-items: center;
     position: fixed;
     background-color: rgb(255, 255, 255);
     z-index: 2;
+    justify-items: center;
 }
-/* header::before{
-    content: '';
-    position: absolute;
-    background-color: rgb(243, 243, 243);
-    width: 100vw;
-    height: 100%;
-    top: 0;
-    left: calc(50% - 50vw);
-    z-index: -2;
-} */
+
 header .logo{
     width: 200px;
     cursor: pointer;
@@ -45,6 +36,10 @@ header .cart-link{
     align-items: center;
     justify-content: flex-end;
     text-decoration: none;
+}
+header .cart-link:hover{
+    color: tomato;
+    transition: .3s;
 }
 header .img-cart{
     width: 50px;
@@ -66,6 +61,10 @@ header .amount-products-cart{
 header .full-price-cart{
     font-size: 30px;
 }
+header .menu-logo{
+    display: none;
+    width: 60px;
+}
 nav{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -77,6 +76,10 @@ nav a{
     text-decoration: none;
     font-size: 30px;
     color: black;
+}
+nav a:hover{
+    color: tomato;
+    transition: 0.3s;
 }
 .products-head{
     width: 100%;
@@ -250,7 +253,7 @@ nav a{
     width: 40px;
     height: 30px;
     font-size: 20px;
-    padding-left: 10px;
+    padding-left: 13px;
 }
 .delete-button, .close {
     cursor: pointer;
@@ -441,9 +444,36 @@ footer > div > div{
         grid-column-start: 1;
         grid-column-end: 2;
     }
+    .cart{
+        height: auto;
+    }
 }
-@media (max-width: 800px) {
-    
+@media (max-width: 750px) {
+    header .menu-logo{
+        display: inline-block;
+        cursor: pointer;
+    }
+    nav{
+        display: none;
+    }
+    header .menu-logo:hover + nav, nav:hover{
+        display: flex;
+        position: absolute;
+        flex-direction: column;
+        top: 95px;
+        left: 35vw;
+        background-color: white;
+        padding: 20px;
+        border-radius: 15px;
+        border: 2px solid black;
+    }
+    .products-head{
+        height: 50px;
+    }
+    .products-head p{
+        padding-top: 10px;
+        font-size: 25px;
+    }
 }
 @media (max-width: 600px) {
     .products-div{
@@ -480,15 +510,57 @@ footer > div > div{
     .cart, .head-cart{
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     }
-    .cart{
-        height: auto;
-    }
+
     .cart img{
         width: 70px;
     }
     .cart-div button{
         padding: 10px 20px;
         font-size: 20px;
+    }
+}
+@media (max-width: 550px) {
+    header .menu-logo:hover + nav, nav:hover{
+        left: 35vw;
+        top: 78px;
+        padding: 10px;
+    }
+    nav a{
+        font-size: 20px;
+    }
+    header .logo{
+        width: 150px;
+    }
+    header .menu-logo{
+        width: 50px;
+    }
+    header .img-cart{
+        width: 35px;
+    }
+    header .cart-link{
+        padding-right: 40px;
+    }
+    .cart-link span{
+        font-size: 20px;
+    }
+    header .amount-products-cart{
+        width: 30px;
+        height: 30px;
+    }
+}
+@media (max-width: 450px) {
+    header .menu-logo:hover + nav, nav:hover{
+        left: 32vw;
+        top: 65px;
+    }
+    header .logo{
+        width: 100px;
+    }
+    header .menu-logo{
+        width: 40px;
+    }
+    .products-head, .contacts-div, .products-div, .cart-div, footer{
+        top: 100px;
     }
 }
 @media (max-width: 400px) {
@@ -500,5 +572,16 @@ footer > div > div{
     }
     .cart img{
         width: 60px;
+    }
+}
+@media (max-width: 350px) {
+    header .logo{
+        width: 80px;
+    }
+    header .menu-logo:hover + nav, nav:hover{
+        top: 60px;
+    }
+    .products-head, .contacts-div, .products-div, .cart-div, footer{
+        top: 80px;
     }
 }

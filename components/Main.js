@@ -76,7 +76,7 @@ class Main {
                 setCookie('fullPrice', this.fullPrice)   // добавляем в куки общую стоимость
                 $('.full-price-cart').innerHTML = '$' + Math.round(this.fullPrice*100)/100
                 $(`.amount${i}`).value = 1 // сброс цифры покупки
-                console.log(this.buyProducts);
+                // console.log(this.buyProducts);
             })
         }
     }
@@ -147,6 +147,14 @@ class Main {
         }, 100)
         
     }
+    deleteFromCart(index) { // кдаление из ворзины товара
+        this.buyProducts.splice(index, 1)
+        localStorage.setItem('buyProduct', JSON.stringify(this.buyProducts)) 
+        $('.cart-div').remove()
+        console.log(this.buyProducts);
+        this.createCartPage()
+        this.sumHeadFullPrice()
+    }
     changeCartPage() { // меняем значения в корзине
         let buyProductsPlus = document.querySelectorAll('.plus')
         let buyProductsMinus = document.querySelectorAll('.minus')
@@ -163,18 +171,16 @@ class Main {
                 buyProductsFullPrice[i].innerHTML = `$${+Math.round(buyProductsAmount[i].value * JSON.parse(localStorage.getItem('buyProduct'))[i].price * 100)/100}`
             })
             deleteProducts[i].addEventListener('click', () => { // удаление из корзины
-                this.buyProducts.splice(i, 1)
-                localStorage.setItem('buyProduct', JSON.stringify(this.buyProducts)) 
-                $('.cart-div').remove()
-                console.log(this.buyProducts);
-                this.createCartPage()
-                this.sumHeadFullPrice()
+               this.deleteFromCart(i)
             })
         }
         $('.cart-div button').addEventListener('click', () => { // обновить значение общей суммы в корзине
             for (let i = 0; i < JSON.parse(localStorage.getItem('buyProduct')).length; i++) {
-                this.buyProducts[i].amount = buyProductsAmount[i].value
-                console.log(this.buyProducts);
+                if (+buyProductsAmount[i].value === 0) {
+                    this.deleteFromCart(i)
+                } else {
+                    this.buyProducts[i].amount = buyProductsAmount[i].value
+                }
                 localStorage.setItem('buyProduct', JSON.stringify(this.buyProducts)) 
                 this.sumHeadFullPrice()
             }
@@ -195,7 +201,6 @@ class Main {
                 <p>Subtotal</p>
             </div>
         `
-        console.log(this.buyProducts);
         this.buyProducts.map(item => $('.cart-div').insertAdjacentHTML('beforeend', `
             <div class='cart'>
                 <div class='delete-button'></div>
