@@ -174,7 +174,7 @@ class Main {
         }
         $('.cart-div button').addEventListener('click', () => { // обновить значение общей суммы в корзине
             for (let i = 0; i < JSON.parse(localStorage.getItem('buyProduct')).length; i++) {
-                if (+buyProductsAmount[i].value === 0) this.buyProducts[i].amount = buyProductsAmount[i].value
+                this.buyProducts[i].amount = buyProductsAmount[i].value
             }
             this.buyProducts = this.buyProducts.filter(item => +item.amount !== 0)
             localStorage.setItem('buyProduct', JSON.stringify(this.buyProducts)) 
