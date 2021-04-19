@@ -11,7 +11,7 @@ class Footer {
         contacts.innerHTML = `
             <a href='tel:+1234567890'>Tel: +1234567890</a>
             <a href='mailto:wecare@metro.co.in'>Email: wecare@metro.co.in</a>
-            <a href='#'>Адресс: вулиця Макарова, 21, Рівне, Рівненська область, Украина</a>
+            <a>Адресс: Memphis, USA</a>
         `
 
         footer.insertAdjacentElement('beforeend', contacts)

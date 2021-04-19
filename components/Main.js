@@ -200,7 +200,7 @@ class Main {
             <div class='cart'>
                 <div class='delete-button'></div>
                 <img src='${item.image}'>
-                <p>${item.title}</p>
+                <p class='cart-title'>${item.title}</p>
                 <p>$${item.price}</p>
                 <div class='change-amount-buy-products'>
                     <div class='minus'>-</div>
@@ -232,7 +232,7 @@ class Main {
                 <h1>Phones</h1>
                 <a href='tel:+1234567890'>Tel: +1234567890</a>
                 <a href='mailto:wecare@metro.co.in'>Email: wecare@metro.co.in</a>
-                <a href='#'>Адрес: вулиця Макарова, 21, Рівне, Рівненська область, Украина</a>
+                <a>Адрес: Memphis, USA</a>
             </div>
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d21189.939460147387!2d35.03044501204864!3d48.40388928868605!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40dbfb68113631ef%3A0xce20d61a5ed45382!2sMETRO%20Cash%26Carry!5e0!3m2!1sru!2sby!4v1618232434300!5m2!1sru!2sby" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
         `
