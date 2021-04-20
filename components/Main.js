@@ -70,8 +70,10 @@ class Main {
                     this.buyProducts.push(buyObj) 
                 }
 
-                $('.amount-products-cart').innerHTML = this.buyProducts.length                
+                $('.amount-products-cart').innerHTML = this.buyProducts.length    
+                console.log(this.fullPrice);            
                 this.fullPrice += buyObj.amount * buyObj.price // расчет общей стоимости
+                console.log(this.fullPrice);            
                 localStorage.setItem('buyProduct', JSON.stringify(this.buyProducts)) 
                 setCookie('fullPrice', this.fullPrice)   // добавляем в куки общую стоимость
                 $('.full-price-cart').innerHTML = '$' + Math.round(this.fullPrice*100)/100
@@ -96,20 +98,21 @@ class Main {
         }
     }
     sumHeadFullPrice() { // изменяет общую сумму товаров вверху страницы
-        let sum = 0
+        this.fullPrice = 0
         if (localStorage.getItem('buyProduct')) {
             JSON.parse(localStorage.getItem('buyProduct')).map(item => {
-                sum += item.amount * item.price
+                this.fullPrice += item.amount * item.price
             })
-            setCookie('fullPrice', sum)
+            setCookie('fullPrice', this.fullPrice)
             $('.cart-link').innerHTML = `<img class='img-cart' src='images/cart.png'>
             <span class='amount-products-cart'>${JSON.parse(localStorage.getItem('buyProduct')).length}</span>
-            <span class='full-price-cart'>$${+Math.round(sum*100)/100}</span>`
+            <span class='full-price-cart'>$${+Math.round(this.fullPrice*100)/100}</span>`
         } else {
             $('.cart-link').innerHTML = `<img class='img-cart' src='images/cart.png'>
             <span class='amount-products-cart'>0</span>
             <span class='full-price-cart'>$0</span>`
         }
+        
     }
     modalWindow(taskId) {
         const closeMethod = () => {
@@ -182,7 +185,7 @@ class Main {
             this.createCartPage()
             this.sumHeadFullPrice()
         })
-
+        console.log(this.fullPrice);  
     }
     createCartPage() {
         const main = document.createElement('div')
