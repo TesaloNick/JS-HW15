@@ -1,6 +1,6 @@
 import $ from './utilits.js'
-import {getCookie} from '../cookie.js'
-import {setCookie} from '../cookie.js'
+import { getCookie } from '../cookie.js'
+import { setCookie } from '../cookie.js'
 
 class Main {
     constructor() {
@@ -11,12 +11,16 @@ class Main {
     createProductPage() {
         const main = document.createElement('div')
         main.classList.add('products-div')
+        const container = document.createElement('div')
+        container.classList.add('container')
+        // $('.app').appendChild(footer)
         $('.products-head').insertAdjacentElement('afterend', main)
+        main.appendChild(container)
         $('.products-head').innerHTML = '<p>Products</p>'
         this.getProducts()
     }
-    createProductCard(product){
-        $('.products-div').insertAdjacentHTML('beforeend', `
+    createProductCard(product) {
+        $('.products-div > .container').insertAdjacentHTML('beforeend', `
         <div class ='product'>
             <div class ='product-image'>
                 <img src='${product.image}'>
@@ -31,8 +35,8 @@ class Main {
         </div>
         `)
     }
-    
-    getAmountBuyProduct(){
+
+    getAmountBuyProduct() {
         const products = document.querySelectorAll('.product'); // массив всех продуктов
         const buttonForBuy = document.querySelectorAll('.buy-button'); // массив всех кнопок покупки
         const productsImage = document.querySelectorAll('.product-image'); // массив всех картинок
@@ -52,13 +56,13 @@ class Main {
                 $('.main-plus').addEventListener('click', () => {
                     $('.price input').value++
                 })
-            }); 
+            });
             products[i].addEventListener("mouseleave", () => {
                 this.amountProduct[i] = +$(`.amount${i}`).value
                 products[i].querySelector('.price').innerHTML = '$' + JSON.parse(localStorage.getItem('products'))[i].price
             });
-            productsTitle[i].addEventListener('click', () => window.location.hash = `product/${i+1}`)
-            productsImage[i].addEventListener('click', () => window.location.hash = `product/${i+1}`)
+            productsTitle[i].addEventListener('click', () => window.location.hash = `product/${i + 1}`)
+            productsImage[i].addEventListener('click', () => window.location.hash = `product/${i + 1}`)
             buttonForBuy[i].addEventListener('click', () => { // событие по нажатию на кнопку покупки
                 let buyObj = JSON.parse(localStorage.getItem('products'))[i]
                 buyObj.amount = +$(`.amount${i}`).value // добавляем свойство в метод с количеством купленных товаров
@@ -67,31 +71,31 @@ class Main {
                     let repeat = this.buyProducts.find(item => item.title === buyObj.title)
                     repeat.amount = +repeat.amount + +buyObj.amount
                 } else {
-                    this.buyProducts.push(buyObj) 
+                    this.buyProducts.push(buyObj)
                 }
 
-                $('.amount-products-cart').innerHTML = this.buyProducts.length    
-                console.log(this.fullPrice);            
+                $('.amount-products-cart').innerHTML = this.buyProducts.length
+                console.log(this.fullPrice);
                 this.fullPrice += buyObj.amount * buyObj.price // расчет общей стоимости
-                console.log(this.fullPrice);            
-                localStorage.setItem('buyProduct', JSON.stringify(this.buyProducts)) 
+                console.log(this.fullPrice);
+                localStorage.setItem('buyProduct', JSON.stringify(this.buyProducts))
                 setCookie('fullPrice', this.fullPrice)   // добавляем в куки общую стоимость
-                $('.full-price-cart').innerHTML = '$' + Math.round(this.fullPrice*100)/100
+                $('.full-price-cart').innerHTML = '$' + Math.round(this.fullPrice * 100) / 100
                 $(`.amount${i}`).value = 1 // сброс цифры покупки
                 buttonForBuy[i].style.backgroundColor = 'grey'
-                setTimeout(()=> {buttonForBuy[i].style.backgroundColor = 'bisque'}, 1000)
+                setTimeout(() => { buttonForBuy[i].style.backgroundColor = 'bisque' }, 1000)
             })
         }
     }
-    getProducts(){ // достает информацию о товарах с постороннего ресурса
+    getProducts() { // достает информацию о товарах с постороннего ресурса
         if (!localStorage.getItem('products')) {
             fetch('https://fakestoreapi.com/products')
-            .then(response => response.json())
-            .then(products => {
-                localStorage.setItem('products', JSON.stringify(products))
-                products.map(product => this.createProductCard(product))
-                this.getAmountBuyProduct()
-            })
+                .then(response => response.json())
+                .then(products => {
+                    localStorage.setItem('products', JSON.stringify(products))
+                    products.map(product => this.createProductCard(product))
+                    this.getAmountBuyProduct()
+                })
         } else {
             JSON.parse(localStorage.getItem('products')).map(product => this.createProductCard(product))
             this.getAmountBuyProduct()
@@ -106,13 +110,13 @@ class Main {
             setCookie('fullPrice', this.fullPrice)
             $('.cart-link').innerHTML = `<img class='img-cart' src='images/cart.png'>
             <span class='amount-products-cart'>${JSON.parse(localStorage.getItem('buyProduct')).length}</span>
-            <span class='full-price-cart'>$${+Math.round(this.fullPrice*100)/100}</span>`
+            <span class='full-price-cart'>$${+Math.round(this.fullPrice * 100) / 100}</span>`
         } else {
             $('.cart-link').innerHTML = `<img class='img-cart' src='images/cart.png'>
             <span class='amount-products-cart'>0</span>
             <span class='full-price-cart'>$0</span>`
         }
-        
+
     }
     modalWindow(taskId) {
         const closeMethod = () => {
@@ -140,7 +144,7 @@ class Main {
                 </div>
             </div>
         `;
-        
+
         document.body.appendChild(modalContainer) //добавляем модальное окно в тело документа
         $('.close').addEventListener('click', closeMethod)
         document.addEventListener('keydown', (event) => {
@@ -149,7 +153,7 @@ class Main {
         setTimeout(() => {
             modalContainer.classList.add('show') //делаем задержку чтобы браузер понял что мы добавили класс show не срау с элементом
         }, 100)
-        
+
     }
     changeCartPage() { // меняем значения в корзине
         let buyProductsPlus = document.querySelectorAll('.plus')
@@ -160,15 +164,15 @@ class Main {
         for (let i = 0; i < JSON.parse(localStorage.getItem('buyProduct')).length; i++) {
             buyProductsMinus[i].addEventListener('click', () => { // уменьшение кол-ва при нажатии на минус
                 if (buyProductsAmount[i].value > 0) buyProductsAmount[i].value--
-                buyProductsFullPrice[i].innerHTML = `$${+Math.round(buyProductsAmount[i].value * JSON.parse(localStorage.getItem('buyProduct'))[i].price * 100)/100}`
+                buyProductsFullPrice[i].innerHTML = `$${+Math.round(buyProductsAmount[i].value * JSON.parse(localStorage.getItem('buyProduct'))[i].price * 100) / 100}`
             })
             buyProductsPlus[i].addEventListener('click', () => { // увеличение кол-ва при нажатии на плюс
                 buyProductsAmount[i].value++
-                buyProductsFullPrice[i].innerHTML = `$${+Math.round(buyProductsAmount[i].value * JSON.parse(localStorage.getItem('buyProduct'))[i].price * 100)/100}`
+                buyProductsFullPrice[i].innerHTML = `$${+Math.round(buyProductsAmount[i].value * JSON.parse(localStorage.getItem('buyProduct'))[i].price * 100) / 100}`
             })
             deleteProducts[i].addEventListener('click', () => { // удаление из корзины
                 this.buyProducts.splice(i, 1)
-                localStorage.setItem('buyProduct', JSON.stringify(this.buyProducts)) 
+                localStorage.setItem('buyProduct', JSON.stringify(this.buyProducts))
                 $('.cart-div').remove()
                 console.log(this.buyProducts);
                 this.createCartPage()
@@ -180,12 +184,12 @@ class Main {
                 this.buyProducts[i].amount = buyProductsAmount[i].value
             }
             this.buyProducts = this.buyProducts.filter(item => +item.amount !== 0)
-            localStorage.setItem('buyProduct', JSON.stringify(this.buyProducts)) 
+            localStorage.setItem('buyProduct', JSON.stringify(this.buyProducts))
             $('.cart-div').remove()
             this.createCartPage()
             this.sumHeadFullPrice()
         })
-        console.log(this.fullPrice);  
+        console.log(this.fullPrice);
     }
     createCartPage() {
         const main = document.createElement('div')
@@ -213,7 +217,7 @@ class Main {
                     <input value='${item.amount}'>
                     <div class='plus'>+</div>
                 </div>
-                <p class='full-price'>$${+Math.round(item.amount * item.price * 100)/100}</p>
+                <p class='full-price'>$${+Math.round(item.amount * item.price * 100) / 100}</p>
             </div>
         `))
         $('.cart-div').insertAdjacentHTML('beforeend', `
@@ -278,7 +282,7 @@ const router = () => { // переход по страницам в зависи
     }
     if (hash.includes('product')) {
         const id = hash.replace('#', '').replace('product/', '');
-        main.modalWindow(+id-1)  
+        main.modalWindow(+id - 1)
     }
 }
 window.addEventListener('hashchange', () => { // когда меняется хэш
@@ -294,4 +298,4 @@ window.onload = () => { // при перезагрузке страницы, о�
         hash = 'home'
     }
 }
-export {main};
+export { main };
